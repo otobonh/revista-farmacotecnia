@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta property="og:title" content="Revista de Farmacotecnia · UNAD"><meta property="og:description" content="Preparados farmacéuticos magistrales semisólidos no estériles · Fase 2"><meta property="og:image" content="p/01.jpg">
+<style>*{box-sizing:border-box;margin:0;padding:0}</style>
+<title>Revista de Farmacotecnia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@500;600;700&display=swap">
+<style>
+/* Layout: a dark reading room; the magazine spread sits centered, controls in a thin top bar and a thumbnail rail. Single deliberate dark look. */
+:root{
+  --room:#0b1a2e; --room2:#10233d; --paper:#faf6ee; --gold:#d2a95e; --gold-deep:#b8863b; --ink:#e9e2d3; --muted:#9aa6b8;
+  --display:'Playfair Display',Georgia,'Times New Roman',serif; --ui:'Montserrat',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:dark;
+}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--room);color:var(--ink);font-family:var(--ui);overflow:hidden}
+.app{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:linear-gradient(180deg,var(--room2),var(--room));border-bottom:1px solid rgba(210,169,94,.25)}
+.brand{display:flex;flex-direction:column;min-width:0;flex:1}
+.brand b{font-family:var(--display);font-size:clamp(16px,2.2vw,21px);color:#fff;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{font-size:10px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.count{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.btn{appearance:none;border:1px solid rgba(210,169,94,.45);background:transparent;color:var(--ink);font:600 12px var(--ui);letter-spacing:.04em;padding:8px 12px;border-radius:999px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn:hover{background:rgba(210,169,94,.14)}
+.btn.gold{background:var(--gold);color:var(--room);border-color:var(--gold)}
+.btn.gold:hover{background:#e0bb72}
+.btn:focus-visible,.nav:focus-visible,.th:focus-visible,.hot:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.stage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:0;padding:14px 60px}
+.spread{position:relative;display:flex;filter:drop-shadow(0 18px 40px rgba(0,0,0,.45))}
+.pg{position:relative;flex:none;background:var(--paper);overflow:hidden}
+.pg img{display:block;width:100%;height:100%;object-fit:contain}
+.spread.two .pg:first-child{box-shadow:inset -18px 0 24px -18px rgba(0,0,0,.35)}
+.spread.two .pg:last-child{box-shadow:inset 18px 0 24px -18px rgba(0,0,0,.35)}
+.spread.two::after{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-1px);background:rgba(0,0,0,.25)}
+.anim{animation:turn .38s ease}
+@keyframes turn{from{opacity:.25;transform:translateX(var(--dx,0))}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.anim{animation:none}}
+.hot{position:absolute;display:block;border-radius:6px;cursor:pointer}
+.hot.qr{outline:2px solid transparent;transition:outline-color .2s,background .2s}
+.hot.qr:hover{outline-color:var(--gold);background:rgba(210,169,94,.12)}
+.hot.qr .tip{position:absolute;left:50%;bottom:100%;transform:translate(-50%,-6px);background:var(--room);color:#fff;font:600 11px var(--ui);padding:5px 9px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.hot.qr:hover .tip,.hot.qr:focus-visible .tip{opacity:1}
+.hot.ix:hover{background:rgba(184,134,59,.12)}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid rgba(210,169,94,.5);background:rgba(11,26,46,.7);color:var(--gold);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3}
+.nav:hover{background:var(--gold);color:var(--room)}
+.nav[disabled]{opacity:.25;cursor:default;background:rgba(11,26,46,.7);color:var(--gold)}
+.prev{left:10px}.next{right:10px}
+.rail{display:flex;gap:8px;overflow-x:auto;padding:10px 16px 12px;border-top:1px solid rgba(210,169,94,.18);background:var(--room2);scrollbar-width:thin}
+.th{flex:none;width:46px;aspect-ratio:2/3;border:2px solid transparent;border-radius:3px;padding:0;background:#223;cursor:pointer;position:relative;opacity:.7}
+.th img{width:100%;height:100%;object-fit:cover;display:block;border-radius:1px}
+.th span{position:absolute;bottom:1px;right:2px;font:700 9px var(--ui);color:#fff;text-shadow:0 1px 2px #000}
+.th.on{border-color:var(--gold);opacity:1}
+.th:hover{opacity:1}
+.drawer{position:fixed;inset:0;z-index:10;display:flex;justify-content:flex-end;background:rgba(5,12,22,.55)}
+.panel{width:min(380px,100%);height:100%;overflow-y:auto;background:var(--paper);color:#1d2a3c;padding:22px 20px calc(22px + env(safe-area-inset-bottom,0px))}
+.panel h2{font-family:var(--display);font-size:30px;color:#0f2847;margin-bottom:4px}
+.panel .k{font-size:10px;letter-spacing:.3em;color:var(--gold-deep);font-weight:700;text-transform:uppercase}
+.panel .close{float:right;border:none;background:#0f2847;color:#fff;border-radius:999px;padding:7px 12px;font:600 12px var(--ui);cursor:pointer}
+.sec{margin-top:18px}
+.sec h3{font-family:var(--display);font-size:18px;color:#0f2847;display:flex;justify-content:space-between;border-bottom:1px solid #e3d6bb;padding-bottom:4px}
+.sec small{display:block;font-size:10.5px;color:#6b7482;margin:4px 0 6px}
+.sec button{display:flex;width:100%;justify-content:space-between;gap:10px;border:none;background:none;text-align:left;font:500 13px var(--ui);color:#1d2a3c;padding:5px 2px;cursor:pointer;border-radius:4px}
+.sec button:hover{background:#efe5d0}
+.sec button i{font-style:normal;color:var(--gold-deep);font-weight:700;font-variant-numeric:tabular-nums}
+@media (max-width:760px){
+  .stage{padding:10px 16px}
+  .nav{width:38px;height:38px;font-size:18px;background:rgba(11,26,46,.85)}
+  .prev{left:4px}.next{right:4px}
+  .hide-sm{display:none}
+  .bar{padding:8px 16px;gap:8px}
+  .btn{padding:7px 10px}
+}
+</style>
+
+</head><body>
+<div class="app">
+  <header class="bar">
+    <div class="brand"><b>Revista de Farmacotecnia</b><span>Preparados magistrales semisólidos · UNAD</span></div>
+    <span class="count" id="count">1 / 42</span>
+    <button class="btn" id="tocBtn" type="button">Contenido</button>
+    <a class="btn gold hide-sm" id="pdfBtn" href="Revista_Farmacotecnia_UNAD_Fase2.pdf" target="_blank" rel="noopener">PDF</a>
+  </header>
+  <main class="stage" id="stage">
+    <button class="nav prev" id="prev" type="button" aria-label="Página anterior">‹</button>
+    <div class="spread" id="spread"></div>
+    <button class="nav next" id="next" type="button" aria-label="Página siguiente">›</button>
+  </main>
+  <nav class="rail" id="rail" aria-label="Páginas"></nav>
+</div>
+<div class="drawer" id="drawer" hidden>
+  <div class="panel" role="dialog" aria-label="Contenido">
+    <button class="close" id="closeToc" type="button">Cerrar</button>
+    <div class="k">Índice</div><h2>Contenido</h2>
+    <div id="toc"></div>
+  </div>
+</div>
+
+<script>
+const QR={"8":[{"u":"https://medlineplus.gov/spanish/druginfo/meds/a682793-es.html","x":0.5319,"y":0.8529,"w":0.1042,"h":0.0694}],"10":[{"u":"https://medlineplus.gov/spanish/ency/article/000836.htm","x":0.8672,"y":0.8529,"w":0.0996,"h":0.0664}],"12":[{"u":"https://medlineplus.gov/spanish/acne.html","x":0.5189,"y":0.8689,"w":0.0911,"h":0.0608}],"13":[{"u":"https://medlineplus.gov/spanish/druginfo/meds/a618059-es.html","x":0.5371,"y":0.8607,"w":0.0794,"h":0.053}],"14":[{"u":"https://medlineplus.gov/spanish/druginfo/meds/a698037-es.html","x":0.5345,"y":0.8429,"w":0.0833,"h":0.0551}],"16":[{"u":"https://medlineplus.gov/spanish/druginfo/meds/a611002-es.html","x":0.8366,"y":0.8238,"w":0.1178,"h":0.079}],"17":[{"u":"https://medlineplus.gov/spanish/druginfo/meds/a682244-es.html","x":0.8366,"y":0.8238,"w":0.1178,"h":0.079}],"18":[{"u":"https://medlineplus.gov/spanish/druginfo/meds/a601026-es.html","x":0.8314,"y":0.8216,"w":0.1178,"h":0.0786}],"19":[{"u":"https://medlineplus.gov/spanish/burns.html","x":0.8288,"y":0.8194,"w":0.1178,"h":0.0781}],"20":[{"u":"https://medlineplus.gov/spanish/bruises.html","x":0.8294,"y":0.8234,"w":0.1185,"h":0.0786}],"22":[{"u":"https://medlineplus.gov/spanish/psoriasis.html","x":0.8652,"y":0.8524,"w":0.0918,"h":0.0616}],"23":[{"u":"https://medlineplus.gov/spanish/ency/article/000434.htm","x":0.8652,"y":0.8481,"w":0.0918,"h":0.0616}],"24":[{"u":"https://medlineplus.gov/spanish/scabies.html","x":0.8652,"y":0.852,"w":0.0918,"h":0.0616}],"25":[{"u":"https://medlineplus.gov/spanish/ency/article/001130.htm","x":0.8646,"y":0.8524,"w":0.0918,"h":0.0612}],"26":[{"u":"https://medlineplus.gov/spanish/ency/article/000964.htm","x":0.8659,"y":0.8507,"w":0.0924,"h":0.0616}],"28":[{"u":"https://medlineplus.gov/spanish/ency/article/000853.htm","x":0.8451,"y":0.7869,"w":0.11,"h":0.0729}],"29":[{"u":"https://medlineplus.gov/spanish/ency/article/000869.htm","x":0.8535,"y":0.7969,"w":0.1035,"h":0.069}],"30":[{"u":"https://medlineplus.gov/spanish/ency/article/000880.htm","x":0.8535,"y":0.7995,"w":0.1035,"h":0.069}],"31":[{"u":"https://medlineplus.gov/spanish/ency/article/003217.htm","x":0.8457,"y":0.8082,"w":0.11,"h":0.0734}],"32":[{"u":"https://medlineplus.gov/spanish/acne.html","x":0.8457,"y":0.7878,"w":0.1081,"h":0.072}],"34":[{"u":"https://medlineplus.gov/spanish/ency/article/000835.htm","x":0.8444,"y":0.8186,"w":0.1133,"h":0.0755}],"35":[{"u":"https://medlineplus.gov/spanish/druginfo/meds/a688004-es.html","x":0.8444,"y":0.8095,"w":0.1133,"h":0.0755}],"36":[{"u":"https://medlineplus.gov/spanish/ency/patientinstructions/000741.htm","x":0.8385,"y":0.8051,"w":0.1191,"h":0.0794}],"37":[{"u":"https://medlineplus.gov/spanish/ency/article/003178.htm","x":0.8483,"y":0.8155,"w":0.1081,"h":0.0729}],"38":[{"u":"https://medlineplus.gov/spanish/druginfo/meds/a605014-es.html","x":0.8444,"y":0.8103,"w":0.1133,"h":0.0755}]};const IDX=[{"p":3,"x":0.0872,"y":0.3776,"w":0.3815,"h":0.0295},{"p":3,"x":0.1445,"y":0.4071,"w":0.3242,"h":0.0149},{"p":4,"x":0.1445,"y":0.422,"w":0.3242,"h":0.0149},{"p":5,"x":0.1445,"y":0.437,"w":0.3242,"h":0.0149},{"p":6,"x":0.0872,"y":0.4797,"w":0.3815,"h":0.0295},{"p":7,"x":0.1445,"y":0.5335,"w":0.3242,"h":0.0149},{"p":8,"x":0.1445,"y":0.5484,"w":0.3242,"h":0.0149},{"p":9,"x":0.1445,"y":0.5633,"w":0.3242,"h":0.0149},{"p":10,"x":0.1445,"y":0.5782,"w":0.3242,"h":0.0149},{"p":11,"x":0.1445,"y":0.5932,"w":0.3242,"h":0.0149},{"p":12,"x":0.1445,"y":0.6081,"w":0.3242,"h":0.0149},{"p":13,"x":0.1445,"y":0.623,"w":0.3242,"h":0.0149},{"p":14,"x":0.1445,"y":0.6379,"w":0.3242,"h":0.0149},{"p":15,"x":0.0872,"y":0.6806,"w":0.3815,"h":0.0295},{"p":16,"x":0.1445,"y":0.7257,"w":0.3242,"h":0.0149},{"p":17,"x":0.1445,"y":0.7407,"w":0.3242,"h":0.0149},{"p":18,"x":0.1445,"y":0.7556,"w":0.3242,"h":0.0149},{"p":19,"x":0.1445,"y":0.7705,"w":0.3242,"h":0.0149},{"p":20,"x":0.1445,"y":0.7854,"w":0.3242,"h":0.0149},{"p":21,"x":0.5417,"y":0.3776,"w":0.3815,"h":0.0295},{"p":22,"x":0.599,"y":0.4227,"w":0.3242,"h":0.0149},{"p":23,"x":0.599,"y":0.4377,"w":0.3242,"h":0.0149},{"p":24,"x":0.599,"y":0.4526,"w":0.3242,"h":0.0149},{"p":25,"x":0.599,"y":0.4675,"w":0.3242,"h":0.0149},{"p":26,"x":0.599,"y":0.4824,"w":0.3242,"h":0.0149},{"p":27,"x":0.5417,"y":0.5251,"w":0.3815,"h":0.0295},{"p":28,"x":0.599,"y":0.5789,"w":0.3242,"h":0.0149},{"p":29,"x":0.599,"y":0.5939,"w":0.3242,"h":0.0149},{"p":30,"x":0.599,"y":0.6088,"w":0.3242,"h":0.0149},{"p":31,"x":0.599,"y":0.6237,"w":0.3242,"h":0.0149},{"p":32,"x":0.599,"y":0.6386,"w":0.3242,"h":0.0149},{"p":33,"x":0.5417,"y":0.6813,"w":0.3815,"h":0.0295},{"p":34,"x":0.599,"y":0.7351,"w":0.3242,"h":0.0149},{"p":35,"x":0.599,"y":0.7501,"w":0.3242,"h":0.0149},{"p":36,"x":0.599,"y":0.765,"w":0.3242,"h":0.0149},{"p":37,"x":0.599,"y":0.7799,"w":0.3242,"h":0.0149},{"p":38,"x":0.599,"y":0.7948,"w":0.3242,"h":0.0149},{"p":39,"x":0.5417,"y":0.8375,"w":0.3815,"h":0.0295},{"p":39,"x":0.599,"y":0.867,"w":0.3242,"h":0.0149},{"p":40,"x":0.599,"y":0.8819,"w":0.3242,"h":0.0149}];
+const N=42;
+const TOC=[
+ {t:'Apertura',p:1,items:[['Portada',1],['Índice',2],['Introducción',3],['Objetivos',4],['Formas farmacéuticas semisólidas',5]]},
+ {t:'Cremas',p:6,a:'Holmer Danilo Arias Escudero',items:[['01 · Crema antiinflamatoria y regeneradora',7],['02 · Crema despigmentante nocturna',9],['03 · Crema antiacné de clindamicina',11],['04 · Crema de clotrimazol 1 %',13],['05 · Crema de permetrina 5 %',14]]},
+ {t:'Geles',p:15,a:'Laura Sofía Arias Martínez',items:[['06 · Gel de diclofenaco 1 %',16],['07 · Gel de metronidazol 0,75 %',17],['08 · Gel de peróxido de benzoilo 5 %',18],['09 · Gel de aloe vera y lidocaína',19],['10 · Gel de árnica con mentol',20]]},
+ {t:'Ungüentos',p:21,a:'Catalina Pérez Araque',items:[['11 · Vaselina salicilada 5 %',22],['12 · Ungüento de coaltar 2 %',23],['13 · Ungüento de azufre 10 %',24],['14 · Ungüento de nitroglicerina 0,2 %',25],['15 · Ungüento de vitaminas A y D',26]]},
+ {t:'Pastas',p:27,a:'Paula Andrea Soto Atehortúa',items:[['16 · Pasta Lassar',28],['17 · Pasta al agua',29],['18 · Pasta de zinc con nistatina',30],['19 · Pasta de calamina',31],['20 · Pasta secante de azufre',32]]},
+ {t:'Pomadas',p:33,a:'Diana Carolina Pereira Tobón',items:[['21 · Pomada de urea 10 %',34],['22 · Pomada de mupirocina 2 %',35],['23 · Pomada de caléndula',36],['24 · Pomada de alcanfor y mentol',37],['25 · Pomada de ketoconazol 2 %',38]]},
+ {t:'Cierre',p:39,items:[['Conclusiones',39],['Referencias',40],['Contraportada',42]]}
+];
+const $=id=>document.getElementById(id);
+const src=i=>'p/'+String(i).padStart(2,'0')+'.jpg';
+let cur=1;
+const wide=()=>innerWidth>=900 && innerWidth/innerHeight>1.05;
+function pagesFor(p){ if(!wide()||p===1||p===N) return [p]; const a=p%2===0?p:p-1; return a+1<=N?[a,a+1]:[a]; }
+function hot(pageEl,p){
+  (QR[p]||[]).forEach(q=>{const a=document.createElement('a');a.className='hot qr';a.href=q.u;a.target='_blank';a.rel='noopener';
+    a.setAttribute('aria-label','Abrir enlace del código QR');Object.assign(a.style,{left:q.x*100+'%',top:q.y*100+'%',width:q.w*100+'%',height:q.h*100+'%'});
+    a.innerHTML='<span class="tip">Abrir en MedlinePlus ↗</span>';pageEl.appendChild(a)});
+  if(p===2) IDX.forEach(r=>{const b=document.createElement('a');b.className='hot ix';b.href='#p'+r.p;b.setAttribute('aria-label','Ir a la página '+r.p);
+    Object.assign(b.style,{left:r.x*100+'%',top:r.y*100+'%',width:r.w*100+'%',height:r.h*100+'%'});
+    b.addEventListener('click',e=>{e.preventDefault();go(r.p)});pageEl.appendChild(b)});
+}
+function render(dir){
+  const ps=pagesFor(cur); cur=ps[0];
+  const sp=$('spread'); sp.innerHTML=''; sp.className='spread'+(ps.length>1?' two':'');
+  ps.forEach(p=>{const d=document.createElement('div');d.className='pg';const im=new Image();im.src=src(p);im.alt='Página '+p;im.decoding='async';d.appendChild(im);hot(d,p);sp.appendChild(d)});
+  fit(ps.length);
+  if(dir){sp.style.setProperty('--dx',(dir>0?24:-24)+'px');void sp.offsetWidth;sp.classList.add('anim')}
+  $('count').textContent=(ps.length>1?ps[0]+'–'+ps[1]:ps[0])+' / '+N;
+  $('prev').disabled=ps[0]<=1; $('next').disabled=ps[ps.length-1]>=N;
+  document.querySelectorAll('.th').forEach(t=>t.classList.toggle('on',ps.includes(+t.dataset.p)));
+  const on=document.querySelector('.th.on'); if(on) on.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+  [ps[ps.length-1]+1,ps[ps.length-1]+2].forEach(p=>{if(p<=N){const i=new Image();i.src=src(p)}});
+  try{history.replaceState(null,'','#p'+cur)}catch(e){}
+}
+function fit(n){const st=$('stage'),cs=getComputedStyle(st);
+  const W=st.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight),H=st.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
+  const h=Math.max(120,Math.min(H,W/(n*2/3)));document.querySelectorAll('.pg').forEach(p=>{p.style.height=h+'px';p.style.width=(h*2/3)+'px'})}
+function go(p){p=Math.max(1,Math.min(N,p));const d=p>cur?1:p<cur?-1:0;cur=p;render(d)}
+function step(d){const ps=pagesFor(cur);go(d>0?ps[ps.length-1]+1:(wide()&&cur>2?cur-2:cur-1))}
+$('prev').onclick=()=>step(-1); $('next').onclick=()=>step(1);
+addEventListener('keydown',e=>{if(!$('drawer').hidden){if(e.key==='Escape')$('drawer').hidden=true;return}
+  if(e.key==='ArrowRight'||e.key==='PageDown')step(1); if(e.key==='ArrowLeft'||e.key==='PageUp')step(-1);
+  if(e.key==='Home')go(1); if(e.key==='End')go(N)});
+let tx=null; $('stage').addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+$('stage').addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>45)step(dx<0?1:-1);tx=null});
+const rail=$('rail');
+for(let i=1;i<=N;i++){const b=document.createElement('button');b.className='th';b.type='button';b.dataset.p=i;b.setAttribute('aria-label','Página '+i);
+  b.innerHTML='<img loading="lazy" src="p/t'+String(i).padStart(2,'0')+'.jpg" alt=""><span>'+i+'</span>';b.onclick=()=>go(i);rail.appendChild(b)}
+$('toc').innerHTML=TOC.map(s=>'<div class="sec"><h3><span>'+s.t+'</span><span>'+s.p+'</span></h3>'+(s.a?'<small>Elaborado por '+s.a+'</small>':'')+
+  s.items.map(([t,p])=>'<button type="button" data-p="'+p+'"><span>'+t+'</span><i>'+p+'</i></button>').join('')+'</div>').join('');
+$('toc').addEventListener('click',e=>{const b=e.target.closest('button[data-p]');if(b){$('drawer').hidden=true;go(+b.dataset.p)}});
+$('tocBtn').onclick=()=>{$('drawer').hidden=false;$('closeToc').focus()};
+$('closeToc').onclick=()=>$('drawer').hidden=true;
+$('drawer').addEventListener('click',e=>{if(e.target.id==='drawer')$('drawer').hidden=true});
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>render(0),120)});
+addEventListener('hashchange',()=>{const h=/^#p(\d+)$/.exec(location.hash);if(h&&+h[1]!==cur)go(+h[1])});
+const m=/^#p(\d+)$/.exec(location.hash);cur=m?Math.max(1,Math.min(N,+m[1])):1;render(0);
+</script>
+
+</body></html>
